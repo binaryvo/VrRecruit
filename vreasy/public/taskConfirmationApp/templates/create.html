@@ -1,0 +1,28 @@
+<h1>Create Task</h1>
+
+<form name="saveForm" class="form-horizontal">
+  <fieldset>
+    <div class="control-group" ng-class="{error: saveForm.assigned_name.$dirty && saveForm.assigned_name.$invalid}">
+      <label class="control-label" for="assigned_name">Assigned Name</label>
+      <div class="controls">
+        <input name="assinged_name" ng-model="item.assigned_name" required>
+      </div>
+    </div>
+    <div class="control-group" ng-class="{error: saveForm.assigned_phone.$dirty && saveForm.assigned_phone.$invalid}">
+      <label class="control-label" for="assigned_phone">Assigned Phone</label>
+      <div class="controls">
+        <input name="assigned_phone"  type="phone" ng-model="item.assigned_phone" required>
+      </div>
+    </div>
+    <div class="control-group" ng-class="{error: saveForm.deadline.$dirty && saveForm.deadline.$invalid}">
+      <label class="control-label" for="deadline">Deadline</label>
+      <div class="controls">
+        <input name="deadline" type="datetime-local" placeholder="yyyy-MM-dd HH:mm:ss"  ng-model="item.deadline" required>
+      </div>
+    </div>
+    <div class="form-actions">
+      <input type="button" ng-disabled="saveForm.$invalid||saveForm.$pristine" href="#/" ng-click="save()" class="btn btn-success" value="Create">
+      <a href="#/" class="btn">Cancel</a>
+    </div>
+  </fieldset>
+</form>

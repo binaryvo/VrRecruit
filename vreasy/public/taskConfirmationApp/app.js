@@ -58,7 +58,7 @@ angular.module('taskConfirmationApp',  ['ui.router', 'ngResource'])
     function($scope, $location, Task) {
         $scope.item = {id:0,assinged_name:'',assigned_phone:'',deadline:''};
         $scope.save = function() {
-          Task.create($scope.item/*, function(){ $location.path('/'); }*/);
+          Task.create($scope.item, function(){ $location.path('/'); });
         };
 }])
 .controller('TaskCtrl', [

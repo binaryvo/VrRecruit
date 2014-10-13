@@ -1,0 +1,66 @@
+<h1>Task #{{task.id}}</h1>
+
+<table class="table table-bordered table-condensed">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Deadline</th>
+      <th>Assignee</th>
+      <th>Phone</th>
+      <th>Status</th>
+      <th>Time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-class="{success: task.status_id.name === 'accepted',
+                   error: task.status_id.name === 'refused'}">
+      <td>{{task.id}}</td>
+      <td>{{task.deadline}}</td>
+      <td>{{task.assigned_name}}</td>
+      <td>{{task.assigned_phone}}</td>
+      <td>{{task.status_id.name}}</td>
+      <td>{{task.created_at}}</td>
+    </tr>
+  </tbody>
+</table>  
+
+<div ng-if="statuses.length">
+    <h2>History</h2>
+
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Status</th>
+          <th>Time</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="status in statuses" ng-class="{success: status.status_id.name === 'accepted',
+                                                      error: status.status_id.name === 'refused'}">      
+          <td>{{status.status_id.name}}</td>
+          <td>{{status.created_at}}</td>
+        </tr>
+      </tbody>
+    </table>
+</div>
+
+<div class="row message-list">
+	<div class="span4">
+		<div ng-repeat="msg in messages" class="clearfix">
+			<span
+				ng-class="{'label-info pull-left': msg.direction == 'from', 'label-success pull-right': msg.direction == 'to'}"
+				class="label" title="{{msg.created_at}}">
+				{{msg.text}}
+			</span>
+		</div>
+		<hr>
+		<form>
+			<div class="control-group">
+    			<div class="controls">
+    				<textarea ng-model="text" class="input-block-level" rows="3" placeholder="Your message..."></textarea>
+    			</div>
+    		</div>
+			<button class="btn btn-primary pull-right" ng-click="sendMessage()">Send</button>
+		</form>
+	</div>
+</div>
