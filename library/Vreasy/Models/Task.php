@@ -3,6 +3,8 @@
 namespace Vreasy\Models;
 
 use Vreasy\Query\Builder;
+use Vreasy\Models\Status;
+use Vreasy\Models\TaskStatusHistory;
 
 class Task extends Base
 {
@@ -11,8 +13,10 @@ class Task extends Base
     protected $deadline;
     protected $assigned_name;
     protected $assigned_phone;
+    protected $status_id;
     protected $created_at;
     protected $updated_at;
+   
 
     public function __construct()
     {
@@ -29,6 +33,11 @@ class Task extends Base
             'integer',
             ['id']
         );
+        $this->status();
+    }
+    
+    public function status(){
+        return $this->belongsTo('status_id', 'Vreasy\Models\Status');
     }
 
     public function save()
@@ -38,14 +47,22 @@ class Task extends Base
             $this->updated_at = gmdate(DATE_FORMAT);
             if ($this->isNew()) {
                 $this->created_at = $this->updated_at;
+                $this->status_id = Status::loadByName('pending');
                 static::insert('tasks', $this->attributesForDb());
                 $this->id = static::lastInsertId();
-            } else {
+                $this->_updateTaskStatusHistory();
+            } else {                
+                $statusBeforeChange = Task::findOrInit(['id' => $this->id])->status_id;
+                
                 static::update(
                     'tasks',
                     $this->attributesForDb(),
                     ['id = ?' => $this->id]
                 );
+                
+                if ($statusBeforeChange != $this->status_id) {
+                    $this->_updateTaskStatusHistory();
+                }
             }
             return $this->id;
         }
@@ -106,8 +123,57 @@ class Task extends Base
         if ($res = static::fetchAll($sql, $values)) {
             foreach ($res as $row) {
                 $collection[] = static::instanceWith($row);
-            }
+           }
         }
         return $collection;
+    }
+    
+   
+
+    public function belongsTo($property, $classOrInstance)
+    {
+        // Unsetting the propery will force to call the magic methods afterwards
+        // so we can hook in and do our stuff
+        unset($this->$property);
+        $field = '_assoc_'.$property;
+        if (is_object($classOrInstance)) {
+            $classType = get_class($classOrInstance);
+            $this->$field = new BelongsTo($property, $classType, $classOrInstance);
+        } else {
+            // An empty One association
+            $one = new BelongsTo($property, $classOrInstance);
+            $this->$field = $one;
+        }
+        return $this->$field;
+    }
+    
+    public static function hydrate($instance, $params)
+    {
+        foreach ($params as $k => $v) {
+            // A collection where the value is not serialized
+            if ($instance->$k instanceof Collection /* && !is_string($v) */ &&
+                !$v instanceof $instance->$k->classType && $v
+            ) {
+                if ($instance->$k instanceof One) {
+                    $instance->$k->buildAssociation($v);
+                } elseif ($instance->$k instanceof BelongsTo) {
+                    $instance->$k->buildAssociation($v);
+                } elseif ($instance->$k instanceof Many) {
+                    $instance->$k->buildCollection($v);
+                }
+            } else {
+                // Attempts to parse integer values
+                $instance->$k = ctype_digit($v) ? (int)$v : $v;
+            }
+        }
+        return $instance;
+    }
+    
+    private function _updateTaskStatusHistory($taskId = null) {
+        TaskStatusHistory::instanceWith([
+            'task_id' => ($taskId ? $taskId : $this->id),
+            'status_id' => Status::findOrInit($this->status_id->id),
+            'created_at' => $this->updated_at
+        ])->save();
     }
 }

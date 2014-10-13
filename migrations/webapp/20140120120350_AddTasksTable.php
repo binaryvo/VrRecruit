@@ -19,6 +19,7 @@ class AddTasksTable extends Ruckusing_Migration_Base
         $tasks->column('updated_at','datetime');
         $tasks->column('assigned_name','text');
         $tasks->column('assigned_phone','text');
+        $tasks->column('status_id','integer');
         $tasks->finish();
     }//up()
 

@@ -18,6 +18,7 @@ class Vreasy_TaskController extends Vreasy_Rest_Controller
                 $req->setParams(['task' => Zend_Json::decode($rawBody)]);
             }
         }
+        
         if($req->getParam('format') == 'json') {
             switch ($action) {
                 case 'index':
@@ -72,7 +73,7 @@ class Vreasy_TaskController extends Vreasy_Rest_Controller
     }
 
     public function showAction()
-    {
+    {        
         $this->view->task = $this->task;
         $this->_helper->conditionalGet()->sendFreshWhen(
             ['etag' => [$this->task]]

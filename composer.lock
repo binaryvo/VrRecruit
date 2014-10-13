@@ -266,6 +266,42 @@
             ],
             "time": "2013-11-08 16:16:07"
         },
+	{
+	    "name": "twilio/sdk",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/twilio/twilio-php",
+                "reference": "a876df2cd5bc873beb450a56e6e410680a5b4e4c"
+            },
+	    "type": "library",
+	    "description": "A PHP wrapper for Twilio's API",
+	    "keywords": ["twilio", "sms", "api"],
+	    "homepage": "http://github.com/twilio/twilio-php",
+	    "license": "MIT",
+	    "authors": [
+		{
+		    "name": "Kevin Burke",
+		    "email": "kevin@twilio.com"
+		},
+		{
+		    "name": "Kyle Conroy",
+		    "email": "kyle+pear@twilio.com"
+		}
+	    ],
+	    "require": {
+		"php": ">=5.2.1"
+	    },
+	    "require-dev": {
+		"mockery/mockery": ">=0.7.2",
+		"phpunit/phpunit": "3.7.*"
+	    },
+	    "autoload": {
+		"psr-0": {
+		    "Services_Twilio": ""
+		}
+	    }
+	},
         {
             "name": "leth/ip-address",
             "version": "dev-master",
@@ -2076,7 +2112,8 @@
         "jacobkiers/oauth": 20,
         "joshuaestes/feature-toggle": 20,
         "codeception/codeception": 20,
-        "magento/community-edition": 20
+        "magento/community-edition": 20,
+        "twilio/sdk": 20
     },
     "platform": [
 

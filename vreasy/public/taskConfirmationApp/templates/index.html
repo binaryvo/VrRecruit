@@ -6,26 +6,35 @@
 </ng-pluralize>
 </h1>
 
-<table>
-  <tr>
-    <th>Id</th>
-    <th>Deadline</th>
-    <th>Assignee</th>
-    <th>Phone</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
+<div class="tools pull-right">
+  <a href="#/new" class="btn btn-success">Create New Task</a>
+  <br /><br />
+</div>
 
-  <tr ng-repeat="task in tasks">
-    <td>{{task.id}}</td>
-    <td>{{task.deadline}}</td>
-    <td>{{task.assigned_name}}</td>
-    <td>{{task.assigned_phone}}</td>
-    <td>
-      <a href="" class="btn" disabled>
-        Show
-      </a>
-    </td>
-  </tr>
+<table class="table table-bordered table-condensed table-striped">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Deadline</th>
+      <th>Assignee</th>
+      <th>Phone</th>
+      <th>Status</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="task in tasks"
+        ng-class="{success: task.status_id.name === 'accepted',
+                   error: task.status_id.name === 'refused'}">
+      <td>{{task.id}}</td>
+      <td>{{task.deadline}}</td>
+      <td>{{task.assigned_name}}</td>
+      <td>{{task.assigned_phone}}</td>
+      <td ng-if="task.status_id == null">pending</td>
+      <td ng-if="task.status_id != null">{{task.status_id.name}}</td>
+      <td>
+        <a href="/#/task/{{task.id}}" class="btn">Show</a>
+      </td>
+    </tr>
+  </tbody>
 </table>

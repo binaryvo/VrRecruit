@@ -25,6 +25,10 @@
         {
             "type": "vcs",
             "url": "git@github.com:brutuscat/Codeception.git"
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:twilio/twilio-php.git"
         }
     ],
     "require": {
@@ -40,7 +44,8 @@
         "eluceo/ical": "dev-master#9b56d5b44c068f3c8fbd7937a412909b723018a3",
         "robclancy/presenter": "1.0.x",
         "jacobkiers/oauth": "dev-master#931bbd357673746274e1b39ad58a73f0788774a5",
-        "joshuaestes/feature-toggle": "dev-master#c5bfb654e2e9496a363628079de5a067be62c5e6"
+        "joshuaestes/feature-toggle": "dev-master#c5bfb654e2e9496a363628079de5a067be62c5e6",
+        "twilio/sdk": "dev-master"
     },
     "require-dev": {
         "codeception/codeception": "dev-master#1b3ccc901a968c8220ef4708869cac6575298ef0",

@@ -1744,7 +1744,7 @@ input.notfound {
   /*border-color:#468847;*/
 }
 #messagetemplate-app input.ng-invalid-required.ng-invalid {
-  border: 1px solid rgb(233, 50, 45);
+  /*border: 1px solid rgb(233, 50, 45);*/
 }
 .datepicker-dropdown.positionLeft:before {
   left: auto;
@@ -2258,7 +2258,7 @@ input.notfound {
   background-color: rgba(255, 255, 0, 0.5);
 }
 input.ng-invalid.ng-dirty {
-  background-color: rgba(200, 0, 0, 0.1);
+  /*background-color: rgba(200, 0, 0, 0.1);*/
 }
 input.ng-valid.ng-dirty {
   /*background-color: rgba(0, 200, 0, 0.1);*/
@@ -2595,4 +2595,12 @@ table thead th.sort-table a {
 .dropzone {
   background-color: rgba(255, 255, 255, 0.8);
   border-radius: 3px;
+}
+
+.message-list span.label {
+  margin: 2px 0;
+}
+
+.message-list form {
+  margin-top: 10px;
 }

@@ -1,9 +1,10 @@
 <?php
 
-$cliIndex = implode(DIRECTORY_SEPARATOR, ['Vreasy', 'application', 'cli', 'cliindex.php']);
+$cliIndex = implode(DIRECTORY_SEPARATOR, ['vreasy', 'application', 'cli', 'cliindex.php']);
 require_once($cliIndex);
 
 use Vreasy\Models\Task;
+use Vreasy\Models\Status;
 
 class InsertSomeTasks extends Ruckusing_Migration_Base
 {
@@ -14,6 +15,7 @@ class InsertSomeTasks extends Ruckusing_Migration_Base
                 'deadline' => (new \DateTime("+$i days"))->format(DATE_FORMAT),
                 'assigned_name' => 'John Doe',
                 'assigned_phone' => '+55 555-555-555',
+//                'status_id' => Status::loadByName('pending')
             ]);
             $t->save();
         }

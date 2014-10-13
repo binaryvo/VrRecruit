@@ -37,7 +37,6 @@ class Base implements \Serializable, \JsonSerializable, HasAttributes, HasAssoci
                                 $value = @unserialize($value);
                             }
                         }
-
                         $toBeAssigned = [];
                         if ($value) {
                             if (is_array($value) || $value instanceof \Traversable) {
@@ -142,11 +141,15 @@ class Base implements \Serializable, \JsonSerializable, HasAttributes, HasAssoci
             } else {
                 $v[$name] = (ctype_digit($value) ? (int)$value : $value);
             }
-
             // Filter out all the assocations so they don get "saved"
+            
             if ($filterOutAssocations) {
                 if ($value instanceof Collection && !$value->serializeAsProxy) {
                     unset($v[$name]);
+                    if ($value instanceof BelongsTo && is_object($value->getAssociation())){
+                        // Get by primary key, but need to be configured with foreign key for belongs to relation!!!
+                        $v[$name] = $value->getAssociation()->id;
+                    }
                 }
             }
 
@@ -239,7 +242,6 @@ class Base implements \Serializable, \JsonSerializable, HasAttributes, HasAssoci
 
     public static function hydrate($instance, $params)
     {
-        $params = (array)$params;
         foreach ($params as $k => $v) {
             // A collection where the value is not serialized
             if ($instance->$k instanceof Collection && !is_string($v) &&
